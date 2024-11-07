@@ -1,13 +1,6 @@
-import { sql } from '@vercel/postgres';
-import {
-  CustomerField,
-  CustomersTableType,
-  InvoiceForm,
-  InvoicesTable,
-  LatestInvoiceRaw,
-  Revenue,
-} from './definitions';
-import { formatCurrency } from './utils';
+import {sql} from '@vercel/postgres';
+import {CustomerField, CustomersTableType, InvoiceForm, InvoicesTable, LatestInvoiceRaw, Revenue,} from './definitions';
+import {formatCurrency} from './utils';
 
 export async function fetchRevenue() {
   try {
@@ -37,11 +30,10 @@ export async function fetchLatestInvoices() {
       ORDER BY invoices.date DESC
       LIMIT 5`;
 
-    const latestInvoices = data.rows.map((invoice) => ({
-      ...invoice,
-      amount: formatCurrency(invoice.amount),
-    }));
-    return latestInvoices;
+    return data.rows.map((invoice) => ({
+       ...invoice,
+       amount: formatCurrency(invoice.amount),
+     }));
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch the latest invoices.');
@@ -172,11 +164,10 @@ export async function fetchCustomers() {
         id,
         name
       FROM customers
-      ORDER BY name ASC
+      ORDER BY name
     `;
 
-    const customers = data.rows;
-    return customers;
+    return data.rows;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all customers.');
