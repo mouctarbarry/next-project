@@ -4,6 +4,9 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import {signIn} from "@/auth";
+import {AuthError} from "next-auth";
+
 
 // Schéma de validation du formulaire
 const FormSchema = z.object({
@@ -36,7 +39,7 @@ const CreateInvoiceSchema = FormSchema.omit({ id: true, date: true });
  * Fonction pour créer une nouvelle facture.
  * @param formData - Les données du formulaire à partir duquel créer la facture.
  */
-export async function createInvoice(prevState: State, formData: FormData) {
+export async function createInvoice(prevState: string, formData: FormData) {
     // Validate form using Zod
     const validatedFields = CreateInvoiceSchema.safeParse({
         customerId: formData.get('customerId'),
@@ -125,6 +128,22 @@ export async function deleteInvoice(id: string) {
     }
 
     revalidatePath("/dashboard/invoices/");
+}
+
+export async function authenticate(prevState: string | undefined, formData: FormData):Promise<string | undefined> {
+    try {
+        await signIn('credentials', formData);
+    } catch (error){
+        if (error instanceof AuthError ){
+            switch (error.type){
+                case 'CredentialsSignin':
+                    return 'Invalid Credentials.';
+                default:
+                    return 'Something went wrong.';
+            }
+        }
+        throw error;
+    }
 }
 
 
