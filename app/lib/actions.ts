@@ -39,7 +39,7 @@ const CreateInvoiceSchema = FormSchema.omit({ id: true, date: true });
  * Fonction pour créer une nouvelle facture.
  * @param formData - Les données du formulaire à partir duquel créer la facture.
  */
-export async function createInvoice(prevState: string, formData: FormData) {
+export async function createInvoice(prevState: State, formData: FormData) {
     // Validate form using Zod
     const validatedFields = CreateInvoiceSchema.safeParse({
         customerId: formData.get('customerId'),

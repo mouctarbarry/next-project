@@ -3,8 +3,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbo",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.4",
@@ -28,8 +27,6 @@
     "@types/node": "20.14.8",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
-    "eslint": "^9.14.0",
-    "eslint-config-next": "15.0.3",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8"
   },
